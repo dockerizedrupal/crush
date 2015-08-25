@@ -111,7 +111,6 @@ drupal_6_path() {
 
 PROJECT_ROOT="$(docker_compose_file_path)"
 
-
 if [ -z "${PROJECT_ROOT}" ]; then
   echo "crush: ${DOCKER_COMPOSE_FILE} file not found."
 
