@@ -1,0 +1,5 @@
+# docker-drush
+
+## License
+
+**MIT**
