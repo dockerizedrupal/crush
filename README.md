@@ -1,5 +1,7 @@
 # Crush
 
+Version agnostic wrapper around Drush that allows you to use Drush seamlessly with containers.
+
 ## Install
 
     TMP="$(mktemp -d)" \
