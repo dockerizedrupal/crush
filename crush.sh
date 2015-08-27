@@ -128,7 +128,7 @@ if [ -z "${CONTAINER}" ]; then
 
   cd "${PROJECT_ROOT}"
 
-  docker-compose -f "${DOCKER_COMPOSE_FILE}" up -d --allow-insecure-ssl
+  docker-compose -f "${DOCKER_COMPOSE_FILE}" up -d
 
   CONTAINER="$(php_container_exists ${PROJECT_ROOT})"
 
@@ -144,7 +144,7 @@ elif [ -z "$(php_container_running ${CONTAINER})" ]; then
 
   cd "${PROJECT_ROOT}"
 
-  docker-compose -f "${DOCKER_COMPOSE_FILE}" up -d --allow-insecure-ssl
+  docker-compose -f "${DOCKER_COMPOSE_FILE}" up -d
 
   echo "crush: Waiting for PHP service to come up..."
 
