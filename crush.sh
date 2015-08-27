@@ -175,14 +175,6 @@ else
   PROJECT_WORKING_DIRECTORY="${DOCUMENT_ROOT}"
 fi
 
-if [ "${1}" == "container" ]; then
-  if [ "${2}" == "enter" ]; then
-    docker exec -it "${CONTAINER}" /bin/su - container -l
-
-    exit
-  fi
-fi
-
 ARGS="${@}"
 
 if [ -t 0 ]; then
