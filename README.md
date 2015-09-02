@@ -1,7 +1,6 @@
 # Crush
 
-Version agnostic wrapper around Drush that allows you to use Drush seamlessly 
-with Docker containers.
+Version agnostic wrapper around Drush that allows you to use Drush seamlessly with Docker containers.
 
 ## Install
 
