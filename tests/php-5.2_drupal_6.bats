@@ -28,7 +28,7 @@ teardown() {
 }
 
 @test "php-5.2: drupal 6" {
-  run "${BATS_TEST_DIRNAME}/../crush.sh" -f "${DOCKER_COMPOSE_FILE}" status | grep 'Drupal bootstrap'
+  run /bin/bash -c "${BATS_TEST_DIRNAME}/../crush.sh -f ${DOCKER_COMPOSE_FILE} status | grep 'Drupal bootstrap'"
 
   [ "${status}" -eq 0 ]
   [[ "${output}" == *"Successful"* ]]
