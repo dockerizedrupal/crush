@@ -20,7 +20,7 @@ fi
 
 version() {
   cat << EOF
-Version: 1.0.1
+Version: 1.0.2
 EOF
 
   exit 1
