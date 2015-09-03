@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 
 WORKING_DIR="$(pwd)"
 

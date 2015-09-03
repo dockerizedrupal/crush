@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-DOCKER_COMPOSE_FILE="${BATS_TEST_DIRNAME}/php-5.2_drupal_7.yml"
+DOCKER_COMPOSE_FILE="${BATS_TEST_DIRNAME}/php-5.5_drupal_7.yml"
 
 container() {
   echo "$(docker-compose -f ${DOCKER_COMPOSE_FILE} ps php | grep php | awk '{ print $1 }')"
@@ -27,7 +27,7 @@ teardown() {
   docker-compose -f "${DOCKER_COMPOSE_FILE}" rm --force
 }
 
-@test "php-5.2: drupal 7" {
+@test "php-5.5: drupal 7" {
   run /bin/bash -c "${BATS_TEST_DIRNAME}/../crush.sh -f ${DOCKER_COMPOSE_FILE} status | grep 'Drupal bootstrap'"
 
   [ "${status}" -eq 0 ]

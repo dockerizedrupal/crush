@@ -28,34 +28,8 @@ teardown() {
 }
 
 @test "php-5.3: drupal 7" {
-  run docker exec "$(container)" /bin/su - root -lc "drush -r /apache/data/ status | grep 'Drupal bootstrap'"
+  run /bin/bash -c "${BATS_TEST_DIRNAME}/../crush.sh -f ${DOCKER_COMPOSE_FILE} status | grep 'Drupal bootstrap'"
 
   [ "${status}" -eq 0 ]
   [[ "${output}" == *"Successful"* ]]
-}
-
-@test "php-5.3: drupal 7: drush 7" {
-  run docker exec "$(container)" /bin/su - root -lc "drush --version"
-
-  [ "${status}" -eq 0 ]
-  [[ "${output}" == *"7.0.0"* ]]
-}
-
-@test "php-5.3: drupal 7: phpcs" {
-  run docker exec "$(container)" /bin/su - root -lc "phpcs --version"
-
-  [ "${status}" -eq 0 ]
-  [[ "${output}" == *"1.5.6"* ]]
-}
-
-@test "php-5.3: drupal 7: phpcs: phpcompatibility" {
-  run docker exec "$(container)" /bin/su - root -lc "phpcs -i | grep 'PHPCompatibility'"
-
-  [ "${status}" -eq 0 ]
-}
-
-@test "php-5.3: drupal 7: phpcs: drupal" {
-  run docker exec "$(container)" /bin/su - root -lc "phpcs -i | grep 'Drupal'"
-
-  [ "${status}" -eq 0 ]
 }
