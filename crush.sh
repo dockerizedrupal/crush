@@ -18,6 +18,18 @@ if [ "${?}" -ne 0 ]; then
   exit 1
 fi
 
+version() {
+  cat << EOF
+Version: 1.0.1
+EOF
+
+  exit 1
+}
+
+if [ "${1}" == "-v" ] || [ "${1}" == "--version" ]; then
+  version
+fi
+
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 
 if [ "${1}" == "-f" ] || [ "${1}" == "--file" ]; then
@@ -161,7 +173,7 @@ if [ -z "${DRUPAL_ROOT}" ]; then
   fi
 fi
 
-DOCUMENT_ROOT="/httpd/data"
+DOCUMENT_ROOT="/apache/data"
 
 if [ -n "${DRUPAL_ROOT}" ]; then
   RELATIVE_PATH="${WORKING_DIR/${PROJECT_ROOT}}"
