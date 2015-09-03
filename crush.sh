@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+VERSION="1.0.3"
+
 WORKING_DIR="$(pwd)"
 
 hash docker 2> /dev/null
@@ -20,7 +22,7 @@ fi
 
 version() {
   cat << EOF
-Version: 1.0.2
+Version: ${VERSION}
 EOF
 
   exit 1
