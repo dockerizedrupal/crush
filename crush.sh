@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="1.0.6"
+VERSION="1.0.7"
 
 WORKING_DIR="$(pwd)"
 
@@ -20,13 +20,26 @@ if [ "${?}" -ne 0 ]; then
   exit 1
 fi
 
-version() {
+help() {
   cat << EOF
 Version: ${VERSION}
+
+Usage: crush
+
+Options:
+  -f, --file FILE  Specify an alternate compose file (default: docker-compose.yml)
 EOF
 
   exit 1
 }
+
+version() {
+  help
+}
+
+if [ "${1}" == "-h" ] || [ "${1}" == "--help" ]; then
+  help
+fi
 
 if [ "${1}" == "-v" ] || [ "${1}" == "--version" ]; then
   version
