@@ -7,14 +7,16 @@ Version agnostic wrapper around Drush that allows you to use Drush seamlessly wi
     Usage: drupal-compose
     
     Options:
-      -f, --file FILE  Specify an alternate compose file (default: docker-compose.yml)
+      -f, --file FILE   Specify an alternate compose file (default: docker-compose.yml)
+      -v, --version     Show version number
+      -h, --help        Show help
 
 ## Install
 
     TMP="$(mktemp -d)" \
       && git clone https://github.com/dockerizedrupal/crush.git "${TMP}" \
       && cd "${TMP}" \
-      && git checkout 1.0.8 \
+      && git checkout 1.0.9 \
       && sudo cp "${TMP}/crush.sh" /usr/local/bin/crush \
       && sudo chmod +x /usr/local/bin/crush \
       && cd -

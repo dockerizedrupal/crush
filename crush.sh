@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="1.0.8"
+VERSION="1.0.9"
 
 WORKING_DIR="$(pwd)"
 
@@ -27,7 +27,9 @@ Version: ${VERSION}
 Usage: crush
 
 Options:
-  -f, --file FILE  Specify an alternate compose file (default: docker-compose.yml)
+  -f, --file FILE   Specify an alternate compose file (default: docker-compose.yml)
+  -v, --version     Show version number
+  -h, --help        Show help
 EOF
 
   exit 1
