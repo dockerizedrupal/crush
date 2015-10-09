@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="1.1.0"
+VERSION="1.1.1"
 
 WORKING_DIR="$(pwd)"
 
@@ -163,7 +163,7 @@ if [ -z "${CONTAINER}" ]; then
 
   echo "crush: Waiting for PHP service to come up..."
 
-  sleep 10
+  sleep 20
 elif [ -z "$(php_container_running ${CONTAINER})" ]; then
   read -p "crush: PHP container is not running. Would you like to start the containers? [Y/n]: " ANSWER
 
@@ -177,7 +177,7 @@ elif [ -z "$(php_container_running ${CONTAINER})" ]; then
 
   echo "crush: Waiting for PHP service to come up..."
 
-  sleep 10
+  sleep 20
 fi
 
 DRUPAL_ROOT="$(drupal_8_path)"

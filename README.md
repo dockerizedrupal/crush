@@ -18,7 +18,7 @@ This project is part of the [Dockerized Drupal](https://dockerizedrupal.com/) in
     TMP="$(mktemp -d)" \
       && git clone https://github.com/dockerizedrupal/crush.git "${TMP}" \
       && cd "${TMP}" \
-      && git checkout 1.1.0 \
+      && git checkout 1.1.1 \
       && sudo cp "${TMP}/crush.sh" /usr/local/bin/crush \
       && sudo chmod +x /usr/local/bin/crush \
       && sudo ln -s /usr/local/bin/crush /usr/local/bin/drush \
