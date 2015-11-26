@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="1.1.1"
+VERSION="1.1.2"
 
 WORKING_DIR="$(pwd)"
 
@@ -206,10 +206,28 @@ fi
 
 ARGS="${@}"
 
-if [ -t 0 ]; then
-  docker exec -it "${CONTAINER}" /bin/su - container -lc "cd ${PROJECT_WORKING_DIRECTORY} && drush ${ARGS}"
-else
-  docker exec -i "${CONTAINER}" /bin/su - container -lc "cd ${PROJECT_WORKING_DIRECTORY} && drush ${ARGS}"
-fi
+case "${1}" in
+  archive-dump|ard|archive-backup|arb)
+    if [ -t 0 ]; then
+      docker exec -it "${CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
+    else
+      docker exec -i "${CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
+    fi
+  ;;
+  archive-restore|arr)
+    if [ -t 0 ]; then
+      docker exec -it "${CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} ./archive.tar.gz"
+    else
+      docker exec -i "${CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} ./archive.tar.gz"
+    fi
+  ;;
+  *)
+    if [ -t 0 ]; then
+      docker exec -it "${CONTAINER}" /bin/su - container -lc "cd ${PROJECT_WORKING_DIRECTORY} && drush ${ARGS}"
+    else
+      docker exec -i "${CONTAINER}" /bin/su - container -lc "cd ${PROJECT_WORKING_DIRECTORY} && drush ${ARGS}"
+    fi
+  ;;
+esac
 
 cd "${WORKING_DIR}"
