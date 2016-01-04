@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="1.1.2"
+VERSION="1.1.3"
 
 WORKING_DIR="$(pwd)"
 
@@ -60,6 +60,12 @@ php_container_exists() {
   local DRUPAL_ROOT="${1}"
 
   echo "$(cd ${DRUPAL_ROOT} && docker-compose -f "${DOCKER_COMPOSE_FILE}" ps php 2> /dev/null | grep _php_ | awk '{ print $1 }')"
+}
+
+apache_container_exists() {
+  local DRUPAL_ROOT="${1}"
+
+  echo "$(cd ${DRUPAL_ROOT} && docker-compose -f "${DOCKER_COMPOSE_FILE}" ps apache 2> /dev/null | grep _apache_ | awk '{ print $1 }')"
 }
 
 php_container_running() {
@@ -146,9 +152,9 @@ if [ -z "${PROJECT_ROOT}" ]; then
   exit 1
 fi
 
-CONTAINER="$(php_container_exists ${PROJECT_ROOT})"
+PHP_CONTAINER="$(php_container_exists ${PROJECT_ROOT})"
 
-if [ -z "${CONTAINER}" ]; then
+if [ -z "${PHP_CONTAINER}" ]; then
   read -p "crush: PHP container could not be found. Would you like to start the containers? [Y/n]: " ANSWER
 
   if [ "${ANSWER}" == "n" ]; then
@@ -159,12 +165,12 @@ if [ -z "${CONTAINER}" ]; then
 
   docker-compose -f "${DOCKER_COMPOSE_FILE}" up -d
 
-  CONTAINER="$(php_container_exists ${PROJECT_ROOT})"
+  PHP_CONTAINER="$(php_container_exists ${PROJECT_ROOT})"
 
   echo "crush: Waiting for PHP service to come up..."
 
   sleep 20
-elif [ -z "$(php_container_running ${CONTAINER})" ]; then
+elif [ -z "$(php_container_running ${PHP_CONTAINER})" ]; then
   read -p "crush: PHP container is not running. Would you like to start the containers? [Y/n]: " ANSWER
 
   if [ "${ANSWER}" == "n" ]; then
@@ -190,7 +196,19 @@ if [ -z "${DRUPAL_ROOT}" ]; then
   fi
 fi
 
-DOCUMENT_ROOT="/apache/data"
+if [ -t 0 ]; then
+  docker exec -it "${PHP_CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
+else
+  docker exec -i "${PHP_CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
+fi
+
+APACHE_CONTAINER="$(apache_container_exists ${PROJECT_ROOT})"
+
+DOCUMENT_ROOT=$(docker exec -it "${APACHE_CONTAINER}" bash -lc env | grep "DOCUMENT_ROOT" | sed 's/DOCUMENT_ROOT=//')
+
+if [ -z "${DOCUMENT_ROOT}" ]; then
+  DOCUMENT_ROOT="/apache/data"
+fi
 
 if [ -n "${DRUPAL_ROOT}" ]; then
   RELATIVE_PATH="${WORKING_DIR/${PROJECT_ROOT}}"
@@ -209,23 +227,23 @@ ARGS="${@}"
 case "${1}" in
   archive-dump|ard|archive-backup|arb)
     if [ -t 0 ]; then
-      docker exec -it "${CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
+      docker exec -it "${PHP_CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
     else
-      docker exec -i "${CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
+      docker exec -i "${PHP_CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
     fi
   ;;
   archive-restore|arr)
     if [ -t 0 ]; then
-      docker exec -it "${CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} ./archive.tar.gz"
+      docker exec -it "${PHP_CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} ./archive.tar.gz"
     else
-      docker exec -i "${CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} ./archive.tar.gz"
+      docker exec -i "${PHP_CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} ./archive.tar.gz"
     fi
   ;;
   *)
     if [ -t 0 ]; then
-      docker exec -it "${CONTAINER}" /bin/su - container -lc "cd ${PROJECT_WORKING_DIRECTORY} && drush ${ARGS}"
+      docker exec -it "${PHP_CONTAINER}" /bin/su - container -lc "cd ${PROJECT_WORKING_DIRECTORY} && drush ${ARGS}"
     else
-      docker exec -i "${CONTAINER}" /bin/su - container -lc "cd ${PROJECT_WORKING_DIRECTORY} && drush ${ARGS}"
+      docker exec -i "${PHP_CONTAINER}" /bin/su - container -lc "cd ${PROJECT_WORKING_DIRECTORY} && drush ${ARGS}"
     fi
   ;;
 esac
