@@ -17,7 +17,7 @@ setup_drupal() {
 setup() {
   docker-compose -f "${DOCKER_COMPOSE_FILE}" up -d
 
-  sleep 20
+  sleep 30
 
   setup_drupal
 }

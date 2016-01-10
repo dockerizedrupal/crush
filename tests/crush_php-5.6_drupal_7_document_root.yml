@@ -8,12 +8,14 @@ apache:
     - apache-data
   links:
     - php
+  environment:
+    - DOCUMENT_ROOT=/var/www
 apache-data:
   image: dockerizedrupal/apache-2.4:1.2.0
   hostname: apache-data
   entrypoint: ["/bin/echo", "Data-only container for Apache."]
   volumes:
-    - /apache/data
+    - /var/www
 mysql:
   image: dockerizedrupal/mysql:1.2.1
   hostname: mysql
@@ -26,7 +28,7 @@ mysql-data:
   volumes:
     - /mysql
 php:
-  image: dockerizedrupal/php-5.4:1.2.3
+  image: dockerizedrupal/php-5.6:1.2.4
   hostname: php
   volumes_from:
     - apache-data

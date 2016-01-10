@@ -1,8 +1,8 @@
+> **Notice:** *This project is part of the [Dockerized Drupal](https://dockerizedrupal.com/) initiative.*
+
 # Crush
 
 Version agnostic wrapper around Drush that allows you to use Drush seamlessly with Docker containers.
-
-This project is part of the [Dockerized Drupal](https://dockerizedrupal.com/) initiative.
 
 ## Usage
 
@@ -18,7 +18,7 @@ This project is part of the [Dockerized Drupal](https://dockerizedrupal.com/) in
     TMP="$(mktemp -d)" \
       && git clone https://github.com/dockerizedrupal/crush.git "${TMP}" \
       && cd "${TMP}" \
-      && git checkout 1.1.3 \
+      && git checkout 1.1.4 \
       && sudo cp "${TMP}/crush.sh" /usr/local/bin/crush \
       && sudo chmod +x /usr/local/bin/crush \
       && sudo ln -s /usr/local/bin/crush /usr/local/bin/drush \
@@ -30,16 +30,25 @@ Tests are implemented in [Bats: Bash Automated Testing System](https://github.co
 
 ### Test results for the current release
 
-    1..9
+    1..18
     ok 1 crush: php-5.2: drupal 6
-    ok 2 crush: php-5.2: drupal 7
-    ok 3 crush: php-5.3: drupal 6
-    ok 4 crush: php-5.3: drupal 7
-    ok 5 crush: php-5.4: drupal 7
-    ok 6 crush: php-5.5: drupal 7
-    ok 7 crush: php-5.5: drupal 8
-    ok 8 crush: php-5.6: drupal 7
-    ok 9 crush: php-5.6: drupal 8
+    ok 2 crush: php-5.2: drupal 6: document root
+    ok 3 crush: php-5.2: drupal 7
+    ok 4 crush: php-5.2: drupal 7: document root
+    ok 5 crush: php-5.3: drupal 6
+    ok 6 crush: php-5.3: drupal 6: document root
+    ok 7 crush: php-5.3: drupal 7
+    ok 8 crush: php-5.3: drupal 7: document root
+    ok 9 crush: php-5.4: drupal 7
+    ok 10 crush: php-5.4: drupal 7: document root
+    ok 11 crush: php-5.5: drupal 7
+    ok 12 crush: php-5.5: drupal 7: document root
+    ok 13 crush: php-5.5: drupal 8
+    ok 14 crush: php-5.5: drupal 8: document root
+    ok 15 crush: php-5.6: drupal 7
+    ok 16 crush: php-5.6: drupal 7: document root
+    ok 17 crush: php-5.6: drupal 8
+    ok 18 crush: php-5.6: drupal 8: document root
 
 ## License
 

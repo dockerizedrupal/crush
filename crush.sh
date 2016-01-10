@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="1.1.3"
+VERSION="1.1.4"
 
 WORKING_DIR="$(pwd)"
 
@@ -169,7 +169,7 @@ if [ -z "${PHP_CONTAINER}" ]; then
 
   echo "crush: Waiting for PHP service to come up..."
 
-  sleep 20
+  sleep 30
 elif [ -z "$(php_container_running ${PHP_CONTAINER})" ]; then
   read -p "crush: PHP container is not running. Would you like to start the containers? [Y/n]: " ANSWER
 
@@ -183,7 +183,7 @@ elif [ -z "$(php_container_running ${PHP_CONTAINER})" ]; then
 
   echo "crush: Waiting for PHP service to come up..."
 
-  sleep 20
+  sleep 30
 fi
 
 DRUPAL_ROOT="$(drupal_8_path)"
@@ -196,22 +196,16 @@ if [ -z "${DRUPAL_ROOT}" ]; then
   fi
 fi
 
-if [ -t 0 ]; then
-  docker exec -it "${PHP_CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
-else
-  docker exec -i "${PHP_CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
-fi
-
 APACHE_CONTAINER="$(apache_container_exists ${PROJECT_ROOT})"
 
-DOCUMENT_ROOT=$(docker exec -it "${APACHE_CONTAINER}" bash -lc env | grep "DOCUMENT_ROOT" | sed 's/DOCUMENT_ROOT=//')
+DOCUMENT_ROOT=$(docker inspect "${APACHE_CONTAINER}" | grep DOCUMENT_ROOT | grep -Po 'DOCUMENT_ROOT=\K[^"]*')
 
 if [ -z "${DOCUMENT_ROOT}" ]; then
   DOCUMENT_ROOT="/apache/data"
 fi
 
 if [ -n "${DRUPAL_ROOT}" ]; then
-  RELATIVE_PATH="${WORKING_DIR/${PROJECT_ROOT}}"
+  RELATIVE_PATH="${WORKING_DIR/${DRUPAL_ROOT}}"
 
   if [ "${RELATIVE_PATH:0:1}" == '/' ]; then
     RELATIVE_PATH="$(echo "${RELATIVE_PATH}" | cut -c 2-)"
