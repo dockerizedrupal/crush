@@ -26,7 +26,7 @@ fi
 VERSION="1.1.5"
 
 if [ "${DEBUG}" == "1" ]; then
-  echo "[ DEBUG ] crush: Version: ${VERSION}"
+  echo "[ DEBUG ] crush: Crush version: ${VERSION}"
 fi
 
 WORKING_DIR="$(pwd)"
@@ -43,12 +43,20 @@ if [ "${?}" -ne 0 ]; then
   exit 1
 fi
 
+if [ "${DEBUG}" == "1" ]; then
+  echo "[ DEBUG ] crush: Docker version: $(echo $(docker --version) | sed 's/Docker version //')"
+fi
+
 hash docker-compose 2> /dev/null
 
 if [ "${?}" -ne 0 ]; then
   echo "crush: docker-compose command not found."
 
   exit 1
+fi
+
+if [ "${DEBUG}" == "1" ]; then
+  echo "[ DEBUG ] crush: Docker Compose version: $(echo $( docker-compose --version) | sed 's/docker-compose version //')"
 fi
 
 help() {
