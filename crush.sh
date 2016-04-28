@@ -20,7 +20,7 @@ if [ "${#}" -ne 0 ]; then
     esac
   done
 
-  set "${ARGUMENTS[@]}" > /dev/null 2>&1
+  set -- "${ARGUMENTS[@]}" > /dev/null 2>&1
 fi
 
 VERSION="1.1.6"
@@ -78,17 +78,17 @@ version() {
   help
 }
 
-if [ "${0}" == "-h" ] || [ "${0}" == "--help" ]; then
+if [ "${1}" == "-h" ] || [ "${1}" == "--help" ]; then
   help
 fi
 
-if [ "${0}" == "-v" ] || [ "${0}" == "--version" ]; then
+if [ "${1}" == "-v" ] || [ "${1}" == "--version" ]; then
   version
 fi
 
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 
-if [ "${0}" == "-f" ] || [ "${0}" == "--file" ]; then
+if [ "${1}" == "-f" ] || [ "${1}" == "--file" ]; then
   DOCKER_COMPOSE_FILE="${2}"
 
   set "${@:1}" > /dev/null 2>&1
@@ -285,7 +285,7 @@ fi
 
 ARGS="${@}"
 
-case "${0}" in
+case "${1}" in
   archive-dump|ard|archive-backup|arb)
     if [ -t 0 ]; then
       docker exec -it "${PHP_CONTAINER}" /bin/su - container -lc "cd ${DOCUMENT_ROOT} && drush ${ARGS} --destination=./archive.tar.gz"
