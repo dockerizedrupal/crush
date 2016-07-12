@@ -15,14 +15,7 @@ Version agnostic wrapper around Drush that allows you to use Drush seamlessly wi
 
 ## Install
 
-    TMP="$(mktemp -d)" \
-      && git clone https://github.com/dockerizedrupal/crush.git "${TMP}" \
-      && cd "${TMP}" \
-      && git checkout 1.1.6 \
-      && sudo cp "${TMP}/crush.sh" /usr/local/bin/crush \
-      && sudo chmod +x /usr/local/bin/crush \
-      && sudo ln -s /usr/local/bin/crush /usr/local/bin/drush \
-      && cd -
+    curl -sSL https://raw.githubusercontent.com/dockerizedrupal/crush/master/install.sh | sudo sh
 
 ## Tests
 
