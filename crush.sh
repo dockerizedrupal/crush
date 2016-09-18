@@ -23,7 +23,7 @@ if [ "${#}" -ne 0 ]; then
   set -- "${ARGUMENTS[@]}" > /dev/null 2>&1
 fi
 
-VERSION="1.1.6"
+VERSION="2.0.0"
 
 if [ "${DEBUG}" == "1" ]; then
   echo "[ DEBUG ] crush: Crush version: ${VERSION}"

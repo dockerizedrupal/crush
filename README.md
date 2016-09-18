@@ -1,5 +1,3 @@
-> **Notice:** *This project is part of the [Dockerized Drupal](https://dockerizedrupal.com/) initiative.*
-
 # Crush
 
 Version agnostic wrapper around Drush that allows you to use Drush seamlessly with Docker containers.
